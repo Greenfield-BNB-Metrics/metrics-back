@@ -5,7 +5,7 @@ import { NotificationService } from '../notification/notification.service';
 import { StorePriceService } from '../store-price/store-price.service';
 
 @Injectable()
-export class CronGetPrice {
+export class UserService {
   constructor(
     private readonly kpiService: KpiService,
     private readonly storePriceService: StorePriceService,
@@ -13,14 +13,17 @@ export class CronGetPrice {
   ) {}
   private readonly logger = new Logger('LogKpi');
 
-  @Cron('2 * * * * *') // 2 sec
+  @Cron('*/2 * * * * *') // 2 sec
   public async setPrice() {
     await this.storePriceService.requestToGetPriceForSps();
   }
 
-  @Cron('/2 * * * * *') // 2 sec
+  @Cron('*/2 * * * * *') // 2 sec
   public async validatePrice() {
     const kpis = await this.kpiService.getAbleKpi();
+    if (!kpis) {
+      return;
+    }
     kpis.forEach(async (kpi) => {
       const limit = await this.storePriceService.getStoreagePriceByLimit(
         kpi.expiresAt,

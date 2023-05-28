@@ -11,7 +11,7 @@ export class StorePriceService {
     @InjectRepository(StorePriceModel)
     private storePriceModel: Repository<StorePriceModel>,
   ) {}
-  public api = 'https://gnfd-testnet-fullnode-tendermint-us.bnbchain.org/';
+  public api = 'https://gnfd-testnet-fullnode-tendermint-us.bnbchain.org';
 
   public async getAllStorages(): Promise<Array<string>> {
     return CONST_SP_ADDRESSES;
@@ -58,8 +58,8 @@ export class StorePriceService {
         const price = await this.greenfieldLastPriceByAddrApi(storage);
         await this.setStoragePrice({
           spAddress: price.sp_storage_price.sp_address,
-          storePrice: Number(price.sp_storage_price.store_price),
-          timeStamp: Number(price.sp_storage_price.update_time_sec),
+          storePrice: parseInt(price.sp_storage_price.store_price.slice(0, 5)),
+          timeStamp: Math.floor(Date.now() / 1000),
         });
       });
     } catch (e) {
@@ -70,19 +70,19 @@ export class StorePriceService {
   private async greenfieldLastPriceByAddrApi(spAddr: string) {
     const config = {
       method: 'GET',
-      maxBodyLength: Infinity,
       url: `${
         this.api
       }/greenfield/sp/get_sp_storage_price_by_time/${spAddr}/${0}`,
       headers: {},
     };
     try {
-      const req = await axios.request(config);
-      const data = JSON.parse(req.data);
+      const req = await axios.get(config.url);
+      console.log(req.data)
+      const data = req.data;
       console.log(data);
       return data;
     } catch (e) {
-      throw new NotAcceptableException('Request faied');
+      throw new NotAcceptableException(`Request failed, ${e}`);
     }
   }
 }

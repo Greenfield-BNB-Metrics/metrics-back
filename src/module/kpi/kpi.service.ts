@@ -11,7 +11,7 @@ export class KpiService {
   ) {}
 
   public async getAbleKpi(): Promise<KpiModel[] | undefined> {
-    const queryBuilder = await this.kpiModel.createQueryBuilder('km');
+    const queryBuilder = this.kpiModel.createQueryBuilder('km');
     const res = await queryBuilder
       .leftJoinAndSelect('km.user', 'user')
       .andWhere('km.isActive = :isActive', { isActive: true })
