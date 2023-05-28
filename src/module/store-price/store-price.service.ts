@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { StorePriceModel } from 'src/model/store-price.model';
 import { Repository } from 'typeorm';
+import { CONST_SP_ADDRESSES } from './storage-address.const';
 
 @Injectable()
 export class StorePriceService {
@@ -12,12 +13,8 @@ export class StorePriceService {
   ) {}
   public api = 'https://gnfd-testnet-fullnode-tendermint-us.bnbchain.org/';
 
-  public async getAllStorages(): Promise<StorePriceModel[]> {
-    const queryBuilder = await this.storePriceModel.createQueryBuilder('spm');
-    const res = await queryBuilder
-      .where('spm.isActive = :isActive', { isActive: true })
-      .getMany();
-    return res;
+  public async getAllStorages(): Promise<Array<string>> {
+    return CONST_SP_ADDRESSES;
   }
 
   public async getStoreagePriceByLimit(
@@ -58,9 +55,7 @@ export class StorePriceService {
     const storages = await this.getAllStorages();
     try {
       storages.forEach(async (storage) => {
-        const price = await this.greenfieldLastPriceByAddrApi(
-          storage.spAddress,
-        );
+        const price = await this.greenfieldLastPriceByAddrApi(storage);
         await this.setStoragePrice({
           spAddress: price.sp_storage_price.sp_address,
           storePrice: Number(price.sp_storage_price.store_price),
@@ -74,7 +69,7 @@ export class StorePriceService {
 
   private async greenfieldLastPriceByAddrApi(spAddr: string) {
     const config = {
-      method: 'get',
+      method: 'GET',
       maxBodyLength: Infinity,
       url: `${
         this.api
@@ -84,6 +79,7 @@ export class StorePriceService {
     try {
       const req = await axios.request(config);
       const data = JSON.parse(req.data);
+      console.log(data);
       return data;
     } catch (e) {
       throw new NotAcceptableException('Request faied');

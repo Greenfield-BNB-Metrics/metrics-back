@@ -7,7 +7,7 @@ export class StorePriceController {
 
   @Get('get/:addr')
   @HttpCode(200)
-  public async setKpi(
+  public async getSp(
     @Req() request: Request,
     @Param('addr') addr: string,
   ): Promise<any> {

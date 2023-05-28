@@ -5,7 +5,7 @@ import { NotificationService } from '../notification/notification.service';
 import { StorePriceService } from '../store-price/store-price.service';
 
 @Injectable()
-export class StorePriceCron {
+export class CronGetPrice {
   constructor(
     private readonly kpiService: KpiService,
     private readonly storePriceService: StorePriceService,
@@ -13,7 +13,7 @@ export class StorePriceCron {
   ) {}
   private readonly logger = new Logger('LogKpi');
 
-  @Cron('/2 * * * * *') // 2 sec
+  @Cron('2 * * * * *') // 2 sec
   public async setPrice() {
     await this.storePriceService.requestToGetPriceForSps();
   }
@@ -28,7 +28,7 @@ export class StorePriceCron {
         kpi.storePriceLimit,
       );
       if (!limit) {
-        this.logger.log(`Notification webhook: ${kpi.webHook}`);
+        this.logger.debug(`Notification webhook: ${kpi.webHook}`);
         await this.notificationService.discordNotification({
           webhook: kpi.webHook,
           price: limit.storePrice,

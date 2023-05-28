@@ -15,7 +15,7 @@ export class NotificationService {
         },
         method: 'POST',
         body: JSON.stringify({
-          username: 'Greenfild BNB Metrics',
+          username: 'Greenfield BNB Metrics',
           content: `Alert: Store price more then limit, store address is ${notification.spAddr}, store price is ${notification.price}`,
         }),
       };

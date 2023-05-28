@@ -25,7 +25,7 @@ export class KpiService {
     webHook: string;
     userId: number;
   }): Promise<KpiModel> {
-    const expiresAt = Date.now();
+    const expiresAt = Math.floor(Date.now() / 1000);
     return await this.kpiModel.save({ ...kpi, expiresAt });
   }
 }

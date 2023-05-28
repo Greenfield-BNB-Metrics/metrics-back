@@ -5,6 +5,7 @@ import { dataSourceOptions } from './config/db-source';
 import { KpiModule } from './module/kpi/kpi.module';
 import { NotificationModule } from './module/notification/notification.module';
 import { StorePriceModule } from './module/store-price/store-price.module';
+import { UserModule } from './module/user/user.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { StorePriceModule } from './module/store-price/store-price.module';
     KpiModule,
     NotificationModule,
     StorePriceModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
