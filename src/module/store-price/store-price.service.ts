@@ -77,9 +77,8 @@ export class StorePriceService {
     };
     try {
       const req = await axios.get(config.url);
-      console.log(req.data)
+      console.log(req.data);
       const data = req.data;
-      console.log(data);
       return data;
     } catch (e) {
       throw new NotAcceptableException(`Request failed, ${e}`);

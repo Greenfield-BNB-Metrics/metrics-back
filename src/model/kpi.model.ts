@@ -5,7 +5,6 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { UserModel } from './user.model';
 
 @Entity('kpi')
 export class KpiModel {

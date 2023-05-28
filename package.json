@@ -8,6 +8,10 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nest start --watch",
     "prod": "cross-env NODE_ENV=prod nest start --watch",
+    "typeorm": "cross-env NODE_ENV=dev npm run build && npx typeorm -d dist/config/db-source.js",
+    "migration:generate": "cross-env NODE_ENV=dev npm run typeorm -- migration:generate",
+    "migration:create": "cross-env NODE_ENV=dev npm run typeorm -- migration:create",
+    "migration:run": "cross-env NODE_ENV=dev npm run typeorm -- migration:run",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { KpiModel } from './kpi.model';
 
 @Entity('user')
 export class UserModel {
