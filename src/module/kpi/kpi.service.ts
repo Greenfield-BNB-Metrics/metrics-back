@@ -21,11 +21,16 @@ export class KpiService {
 
   public async setKpi(kpi: {
     spAddress: string;
-    storePriceLimit: number;
+    storePriceLimit: string;
     webHook: string;
     userId: number;
   }): Promise<KpiModel> {
     const expiresAt = Math.floor(Date.now() / 1000);
-    return await this.kpiModel.save({ ...kpi, expiresAt });
+    return await this.kpiModel.save({
+      spAddress: kpi.spAddress,
+      storePriceLimit: parseInt(kpi.storePriceLimit.slice(0, 6)),
+      webHook: kpi.webHook,
+      expiresAt,
+    });
   }
 }
