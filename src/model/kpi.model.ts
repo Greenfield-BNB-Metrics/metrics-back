@@ -29,8 +29,4 @@ export class KpiModel {
 
   @Column({ nullable: true })
   expiresAt: number;
-
-  @ManyToOne(() => UserModel, (userModel) => userModel.kpi)
-  @JoinColumn({ name: 'userId' })
-  user: UserModel;
 }

@@ -14,7 +14,4 @@ export class UserModel {
 
   @Column({ nullable: true })
   expiresAt: Date;
-
-  @OneToMany(() => KpiModel, (kpiModel) => kpiModel.user)
-  kpi: KpiModel[];
 }
